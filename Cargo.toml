@@ -1,0 +1,13 @@
+[package]
+name = "rpi-balatro"
+version = "0.1.0"
+edition = "2024"
+default-run = "rpi-balatro"
+
+[dependencies]
+bincode = "2.0.1"
+convert_case = "0.8.0"
+libloading = "0.8.6"
+num_enum = "0.7.3"
+serde = "1.0.219"
+serde-binary = "0.5.0"
