@@ -1,4 +1,7 @@
-const base_scores: [usize] = [
+use derived::{Gtor};
+
+
+const base_scores: [usize; 5] = [
     100,
     100,
     300,
@@ -6,8 +9,5 @@ const base_scores: [usize] = [
     1500
 ];
 
-
 pub trait Blind {
-    pub multiplier: f32,
-    
 }

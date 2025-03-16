@@ -1,7 +1,7 @@
 [package]
 name = "rpi-balatro"
 version = "0.1.0"
-edition = "2024"
+edition = "2024" 
 default-run = "rpi-balatro"
 
 [dependencies]
@@ -13,3 +13,5 @@ once_cell = "1.21.1"
 phf = "0.11.3"
 serde = "1.0.219"
 serde-binary = "0.5.0"
+blind_macros = { path = "./blind_macros" }
+derived = "0.4.2"

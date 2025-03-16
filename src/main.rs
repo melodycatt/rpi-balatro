@@ -1,5 +1,8 @@
 //start here! lets follow the code as it takes us through all the files
 
+//ignore this thing
+#![feature(generic_arg_infer)]
+
 //first we import something from a library - code that someone else wrote,
 //but it would get pretty repetitive if everyone wrote it themselves
 //in fact, this is a special library: std, or standard. this comes with rust when you install it

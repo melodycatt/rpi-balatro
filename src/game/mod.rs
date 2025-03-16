@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 use serde_binary::{to_vec, from_vec, binary_stream::Endian};
 use std::{collections::HashMap, env::{current_dir, current_exe}, fs, iter::Map};
-
 use crate::{cards::Card, jokers::Joker};
+mod blinds;
 
 #[derive(Serialize, Deserialize)]
 struct Game<'a> {
@@ -12,5 +12,3 @@ struct Game<'a> {
     round: usize,
     money: usize,
 }
-
-static ANTES: HashMap<usize, f64> = HashMap::new();
