@@ -1,5 +1,5 @@
 mod load;
-pub use load::{create, JokerLoader};
+pub use load::JokerLoader;
 use load::JOKER_LOADER;
 //this is a tiny function. really, its just for cleanliness and good practice,
 //so after i explain the one confusing part here, we'll command+click on load::JOKER_LOADER above

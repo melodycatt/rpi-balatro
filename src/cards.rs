@@ -5,9 +5,9 @@
 //whereas (for whatever reason) serde_binary serializes them as strings
 //which (for whatever reason) caused deserialization panics
 use serde::{Deserialize, Serialize};
-use num_enum::{IntoPrimitive, TryFromPrimitive};
+use num_enum::{Default, IntoPrimitive, TryFromPrimitive};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone, Copy, Default)]
 pub struct Card {
     pub enhancements: CardEnhancements,
     pub rank: u8,
@@ -33,6 +33,7 @@ pub enum Result<T, E: Error> {
     Err(E)
 }
 */
+//all those markers apply to this enum
 pub enum Suit {
     Spades,
     Clubs,
@@ -40,7 +41,7 @@ pub enum Suit {
     Hearts
 }
 
-#[derive(Serialize, Deserialize, Default)]
+#[derive(Serialize, Deserialize, Default, Clone, Copy, Default)]
 pub struct CardEnhancements {
     pub card_type: CardType,
     pub edition: CardEdition,

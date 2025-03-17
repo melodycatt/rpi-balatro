@@ -51,7 +51,7 @@ impl JokerLoader {
         //(because its the path to the executable itself, and not the folder its in)
         //(the parent is just the second last part of the path, here the enclosing folder)
         //then we add libjokers.dylib to the end, 
-        ///because the dynamic library should be put in the same folder as the binary
+        //because the dynamic library should be put in the same folder as the binary
         let lib_path = current_exe().unwrap().parent().unwrap().join("libjokers.dylib");  // Use the appropriate path for your platform 
 
         //unsafe tells rust that it doesnt need to check for memory safety here

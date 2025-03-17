@@ -1,5 +1,5 @@
 use std::{path::Path, process::Command};
-use rpi_balatro::jokers::create;
+use rpi_balatro::jokers::JokerLoader;
 
 const NAME: &str = "showman";
 
@@ -10,6 +10,6 @@ fn main() {
         .current_dir(Path::canonicalize(Path::new("./jokers")).unwrap())
         .status()
         .expect("msg");
-    create(NAME);
+    JokerLoader::create_joker(NAME);
     println!("{:?}", status.success());
 }

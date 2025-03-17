@@ -1,7 +1,7 @@
 //start here! lets follow the code as it takes us through all the files
 
 //ignore this thing
-#![feature(generic_arg_infer)]
+//#![feature(generic_arg_infer)]
 
 //first we import something from a library - code that someone else wrote,
 //but it would get pretty repetitive if everyone wrote it themselves
@@ -66,6 +66,7 @@ use std::env::current_dir;
 //this means that instead of doing `use rpi_balatro::jokers;` and then, say `jokers::joker_loader();`,
 //we can individually use everything in the module without the prefix `jokers::` and without listing it all
 use rpi_balatro::jokers::*;
+use rpi_balatro::game;
 //modules we want in our crate (project) are defined in <crate_directory>/src/lib.rs
 //lib stands for library, src stands for source (code). we're in <crate_directory>/src/main.rs right now;
 //<crate_directory> in our case is rpi-balatro
@@ -95,4 +96,6 @@ pub fn main() {
     let joker = loader.load_joker("Showman");
     println!("{:#?}, {}", joker, joker.apply(0.2, 0.3));
     joker.apply(0.2, 0.3);
+
+    //ignore
 }
