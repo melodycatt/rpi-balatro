@@ -5,16 +5,40 @@
 //whereas (for whatever reason) serde_binary serializes them as strings
 //which (for whatever reason) caused deserialization panics
 use serde::{Deserialize, Serialize};
-use num_enum::{Default, IntoPrimitive, TryFromPrimitive};
+use num_enum::{IntoPrimitive, TryFromPrimitive};
 
-#[derive(Serialize, Deserialize, Clone, Copy, Default)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub struct Card {
     pub enhancements: CardEnhancements,
     pub rank: u8,
-    pub suit: Suit,
+    pub suit: CardSuit,
+    pub count: usize
+}
+impl Card {
+    pub fn new_default(suit: CardSuit, rank: u8) -> Self {
+        Self {
+            enhancements: CardEnhancements::default(),
+            rank,
+            suit,
+            count: 1
+        }
+    }
+    pub fn new(suit: CardSuit, rank: u8, enhancements: CardEnhancements) -> Self {
+        Self {
+            enhancements,
+            rank,
+            suit,
+            count: 1
+        }
+    }
+
+    pub fn with_count(mut self, count: usize) -> Self {
+        self.count = count;
+        self
+    }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Serialize, Deserialize, Debug,  Default, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
 //this tells serde to turn the enum into a primitive u16 when serializing and deserialize it from a u16
 #[serde(into = "u16", try_from = "u16")]
 //repr stands for representation - the enum will be represented as a u16 in memory...
@@ -34,14 +58,14 @@ pub enum Result<T, E: Error> {
 }
 */
 //all those markers apply to this enum
-pub enum Suit {
-    Spades,
+pub enum CardSuit {
+    #[default] Spades,
     Clubs,
-    Diamonds,
-    Hearts
+    Hearts,
+    Diamonds
 }
 
-#[derive(Serialize, Deserialize, Default, Clone, Copy, Default)]
+#[derive(Serialize, Deserialize, Clone, Copy, Default, Debug)]
 pub struct CardEnhancements {
     pub card_type: CardType,
     pub edition: CardEdition,

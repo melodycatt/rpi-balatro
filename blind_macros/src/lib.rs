@@ -1,6 +1,9 @@
+use std::char;
+
+use itertools::{Itertools, IntoChunks, Chunk, Chunks, ChunkBy};
 use proc_macro2::{TokenStream, TokenTree};
-use quote::quote;
-use syn::{parse_macro_input, ImplRestriction, Item, ItemStruct, ItemTrait};
+use quote::{quote, ToTokens};
+use syn::{parse::{Nothing, Parser}, parse_macro_input, punctuated::Punctuated, token::Type, ImplRestriction, Item, ItemStruct, ItemTrait, ItemType, Token};
 
 #[proc_macro_attribute]
 pub fn generate_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -8,8 +11,8 @@ pub fn generate_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::T
     let trait_def = parse_macro_input!(item as ItemTrait);
     //println!("{attr}");
     //println!("{attr:?}");
-
-    let mut idents = attr.clone().into_iter().filter_map(|x| {
+    let mut idents = attr.clone().into_iter()
+                            .filter_map(|x| {
         match x {
             TokenTree::Ident(_) => Some(x),
             _ => None
@@ -49,8 +52,8 @@ pub fn generate_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::T
 pub fn derive_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let attr = TokenStream::from(attr);
     let struct_def = parse_macro_input!(item as ItemStruct);
-    //println!("{attr}");
-    //println!("{attr:?}");
+    println!("{attr}");
+    println!("{attr:?}");
 
     let mut idents = attr.clone().into_iter().filter_map(|x| {
         match x {
@@ -65,8 +68,20 @@ pub fn derive_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::Tok
     let mut fields = TokenStream::new();
     while let Some(first) = idents.next() {
         if let Some(second) = idents.next() {
+            /*let stri = second.to_string();
+            let mut chars = stri.chars();
+            let mut reference = Nothing;
+            if chars.nth(0) == Some('&') {
+                if chars.take(3).collect::<Vec<char>>() == vec!['m', 'u', 't'] {
+                    reference = "&mut";
+                    println!("&mut")
+                } else {
+                    reference = "&";
+                    println!("&")
+                }
+            }*/
             getters.extend(quote! { 
-                fn #first(&self) -> #second { self.#first }
+                fn #first(&self) ->  #second {  self.#first }
             });
             fields.extend(quote! {
                 #first: #second,
@@ -95,7 +110,7 @@ pub fn derive_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::Tok
             #getters
         }
     }.into();
-    //println!("{output}");
+    println!("{output}");
     output
 }
 
@@ -116,3 +131,21 @@ pub fn derive_blind(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     output.into()
 }
+
+/*#[proc_macro_derive(DeckType)]
+pub fn derive_decktype(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let struct_def = parse_macro_input!(item as ItemStruct);
+    
+    let struct_ident = struct_def.ident;
+    let struct_generics = struct_def.generics;
+
+    let output = quote! {
+        impl #struct_generics DeckType for #struct_ident #struct_generics {
+            fn config(&self) -> &DeckConfig {
+                return &self.deck_config;
+            }
+        } 
+    };
+
+    output.into()
+}*/

@@ -14,4 +14,6 @@ phf = "0.11.3"
 serde = "1.0.219"
 serde-binary = "0.5.0"
 blind_macros = { path = "./blind_macros" }
-derived = "0.4.2"
+num = "0.4.3"
+const-default = { version = "1.0.0", features = ["derive"] }
+rand = "0.9.0"

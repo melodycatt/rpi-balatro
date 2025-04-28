@@ -13,6 +13,7 @@
 pub mod cards;
 pub mod jokers;
 pub mod game;
+pub mod vouchers;
 //multiple modules can also be written in one file:
 /*
 pub mod module_one {

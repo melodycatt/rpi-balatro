@@ -28,7 +28,7 @@ use serde::de::Deserializer;
 use load::JokerApplyFunction;
 use libloading::Symbol;
 use serde::{Serialize, Deserialize};
-use crate::cards::CardEdition;
+use crate::cards::{CardEdition, CardEnhancements};
 
 //derive is a special marker.
 //rust has things called traits. when a struct 'implements' a trait, its basically saying
@@ -132,6 +132,7 @@ pub struct JokerModifiers {
     pub eternal: bool,
     pub perishable: bool,
     pub rental: bool,
+    pub e: CardEnhancements
 }
 
 //lets go to src/jokers/load.rs,
