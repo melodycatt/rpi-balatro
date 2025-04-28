@@ -98,4 +98,5 @@ pub fn main() {
     joker.apply(0.2, 0.3);
 
     //ignore
+    let x = game::Game::new(game::Stake::White);
 }

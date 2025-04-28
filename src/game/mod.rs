@@ -7,18 +7,26 @@ use crate::{cards::Card, jokers::Joker};
 mod blinds;
 mod deck;
 
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum Stake {
+    White
+    //todo!()
+} impl Stake {
+    pub fn scaling(self) -> Scaling { todo!() }
+}
 #[derive(Serialize, Deserialize)]
-struct Game<'a, T: DeckType + Any> {
-    jokers: Vec<Joker<'a>>,
+pub struct Game<'a, T: DeckType + 'static> {
+    pub jokers: Vec<Joker<'a>>,
+    pub stake: Stake,
     scaling: Scaling,
-    deck: Deck::<T>,
-    blinds: [BlindType; 3],
-    game_data: GameData
+    pub deck: Deck::<T>,
+    pub blinds: [BlindType; 3],
+    pub game_data: GameData
 }
 
-impl<'a, T: DeckType + Any> Game<'a, T> {
+impl<'a, T: DeckType + 'static> Game<'a, T> {
     const K: f64 = 0.75;
-    fn ante_base_score(&self) -> f64 {
+    pub fn ante_base_score(&self) -> f64 {
         if self.game_data.ante < 1 {
             return 100.0;
         }
@@ -41,24 +49,35 @@ impl<'a, T: DeckType + Any> Game<'a, T> {
         amt -= amt.rem_euclid(10.0f64.powf((amt.log10()).floor() - 1.0));
         amt
     }
-    fn blind_score_requirement(&self) -> f64 {
+    pub fn blind_score_requirement(&self) -> f64 {
         self.blinds[self.game_data.current_blind as usize].score_requirement(self.ante_base_score())
         * if TypeId::of::<T>() == TypeId::of::<PlasmaDeck>() { 2.0 } else { 1.0 } 
     }
 
-    fn init(&mut self) {
+    pub fn init(&mut self) {
         self.deck.initialise_cards();
+    }
+
+    pub fn new(stake: Stake) -> Game<'a, T> {
+        Self {
+            jokers: vec![],
+            stake,
+            scaling: stake.scaling(),
+            deck: Deck::<T>::new(),
+            blinds: [BlindType::Small, BlindType::Big, BlindType::Wall],
+            game_data: GameData::default()
+        }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct GameData {
-    hands: usize,
-    discards: usize,
-    money: usize,
-    round: usize,
-    ante: usize,
-    current_blind: u8,
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct GameData {
+    pub hands: usize,
+    pub discards: usize,
+    pub money: usize,
+    pub round: usize,
+    pub ante: usize,
+    pub current_blind: u8,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

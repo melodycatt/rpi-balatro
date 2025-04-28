@@ -49,15 +49,66 @@ pub enum Scaling {
 pub enum BlindType {
     Small,
     Big,
+
+    Hook,
+    Ox,
+    House,
     Wall,
+    Wheel,
+    Arm,
+    Club,
+    Fish,
+    Psychic,
+    Goad,
+    Water,
+    Window,
+    Manacle,
+    Eye,
+    Mouth,
+    Plant,
+    Serpent,
+    Pillar,
+    Needle,
+    Head,
+    Tooth,
+    Flint,
+    Mark,
+
+    Amber,
+    Verdant,
+    Violet,
+    Crimson,
+    Cerulean
 }
 
 impl BlindType {
+    pub fn category(&self) -> usize {
+        match self {
+            Self::Small | Self::Big => 0,
+            Self::Amber | Self::Verdant | Self::Violet | Self::Crimson | Self::Cerulean => 2,
+            _ => 1
+        }
+    }
     pub fn score_requirement(&self, ante_score: f64) -> f64 {
         return match self {
             BlindType::Small => 1.0,
             BlindType::Big => 1.5,
-            BlindType::Wall => 4.0
+            BlindType::Wall => 4.0,
+            BlindType::Needle => 1.0,
+            BlindType::Violet => 6.0,
+            _ => 2.0,
         } * ante_score
+    }
+    pub fn earnings(&self) -> usize {
+        return match self.category() {
+            0 => match self {
+                Self::Small => 3,
+                Self::Big => 4,
+                _ => unreachable!()
+            }
+            1 => 5,
+            2 => 8,
+            _ => unreachable!()
+        }
     }
 }

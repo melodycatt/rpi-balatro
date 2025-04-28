@@ -10,12 +10,12 @@ use crate::{cards::{Card, CardSuit}, vouchers::{VoucherLevel, Vouchers}};
 use super::RoundData;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Deck<T: DeckType + Any> {
+pub struct Deck<T: DeckType + 'static> {
     cards: Vec<Card>,
     deck_type_phantom: PhantomData<T>
 }
 
-impl<T: DeckType + Any> Deck<T> {
+impl<T: DeckType + 'static> Deck<T> {
     pub fn initialise_cards(&mut self) { T::initialise_cards(&mut self.cards) }
     pub fn score(&self, chips: f64, mult: f64) -> (f64, f64) { T::score(chips, mult) }
     pub fn interest(&self, round_data: RoundData, multiplier: usize, max: usize) -> usize { T::interest(round_data, multiplier, max) }
