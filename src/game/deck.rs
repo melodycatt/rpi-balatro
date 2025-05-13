@@ -1,30 +1,48 @@
-use std::{any::Any, marker::PhantomData};
+use std::{any::Any, collections::HashMap, marker::PhantomData};
 
 use blind_macros::{derive_trait_getters, generate_trait_getters};
 use const_default::ConstDefault;
 use num_enum::TryFromPrimitive;
-use rand::random_range;
+use rand::{distr::{weighted::WeightedIndex, Distribution}, random_range, rngs::ThreadRng, Rng};
 use serde::{Deserialize, Serialize};
 use crate::{cards::{Card, CardSuit}, vouchers::{VoucherLevel, Vouchers}};
 
-use super::RoundData;
+use super::{GameData, RoundData};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Deck<T: DeckType + 'static> {
     cards: Vec<Card>,
+    remaining_cards: Vec<(usize, Card)>,
     deck_type_phantom: PhantomData<T>
 }
 
 impl<T: DeckType + 'static> Deck<T> {
-    pub fn initialise_cards(&mut self) { T::initialise_cards(&mut self.cards) }
+    pub fn initialise_cards(&mut self) { 
+        self.cards.clear(); 
+        T::initialise_cards(&mut self.cards);
+        self.remaining_cards = self.cards.iter().map(|x| x.count ).zip(self.cards.clone()).collect();
+    }
     pub fn score(&self, chips: f64, mult: f64) -> (f64, f64) { T::score(chips, mult) }
     pub fn interest(&self, round_data: RoundData, multiplier: usize, max: usize) -> usize { T::interest(round_data, multiplier, max) }
 
     pub fn new() -> Deck<T> {
         Deck::<T> {
             cards: Vec::new(),
+            remaining_cards:Vec::new(),
             deck_type_phantom: PhantomData
         }
+    }
+
+    pub fn pick(&mut self) -> Card {
+        let mut rng = rand::rng();
+        let weights = self.weights();
+        let pick = weights.sample(&mut rng);
+        self.remaining_cards[pick].0 -= 1;
+        self.remaining_cards[pick].1
+    }
+    pub fn weights(&self) -> WeightedIndex<usize> {
+        let weights: Vec<usize> = self.remaining_cards.iter().map(|x| x.0).collect();
+        WeightedIndex::new(&weights).expect("x_x :: ???")
     }
 }
 
@@ -35,7 +53,7 @@ pub trait DeckType {
     fn initialise_cards(cards: &mut Vec<Card>) {
         for i in 0..4 {
             for j in 1..=14 {
-                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("card suit in default fucked up"), j));
+                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("x_x :: card suit in default fucked up"), j));
             }
         }
     }
@@ -43,8 +61,8 @@ pub trait DeckType {
     fn score(chips: f64, mult: f64) -> (f64, f64) {
         (chips, mult)
     }
-    fn interest(round_data: RoundData, multiplier: usize, max: usize) -> usize {
-        (num::Integer::div_floor(&round_data.money, &5).min(max)) * multiplier
+    fn interest(game_data: GameData, multiplier: usize, max: usize) -> usize {
+        (num::Integer::div_floor(&game_data.money, &5).min(max)) * multiplier
     }
 }
 
@@ -159,11 +177,11 @@ impl DeckType for AbandondedDeck {
     fn initialise_cards(cards: &mut Vec<Card>) {
         for i in 0..4 {
             for j in 1..=10 {
-                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("card suit in default fucked up"), j));
+                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("x_x :: card suit in default fucked up"), j));
             }
         }
         for i in 0..4 {
-            cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("card suit in default fucked up"), 14));
+            cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("x_x :: card suit in default fucked up"), 14));
         }
     }
 }
@@ -182,7 +200,7 @@ impl DeckType for CheckeredDeck {
     fn initialise_cards(cards: &mut Vec<Card>) {
         for i in [0,0,2,2] {
             for j in 1..=14 {
-                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("card suit in default fucked up"), j));
+                cards.push(Card::new_default(CardSuit::try_from_primitive(i).expect("x_x :: card suit in default fucked up"), j));
             }
         }
     }
@@ -256,7 +274,7 @@ impl DeckType for ErraticDeck {
     };
     fn initialise_cards(cards: &mut Vec<Card>) {
         for _ in 0..52 {
-            cards.push(Card::new_default(CardSuit::try_from_primitive(random_range(0..4u16)).expect("plasma init_cards try_into failed"), random_range(1..=14)));
+            cards.push(Card::new_default(CardSuit::try_from_primitive(random_range(0..4u16)).expect("x_x :: plasma init_cards try_into failed"), random_range(1..=14)));
         }
     }
 }

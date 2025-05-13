@@ -113,9 +113,9 @@ impl JokerLoader {
             enhancements: JokerEnhancements::default()
         };
         let bin_path = current_dir().unwrap().join(format!("assets/jokers/{}.joker", j.id));  // Use the appropriate path for your platform  
-        let v = to_vec(&j, Endian::Little).expect("couldnt vec");
+        let v = to_vec(&j, Endian::Little).expect("x_x :: couldnt vec");
         println!("{:?}", v);
-        fs::write(bin_path, v).expect("couldnt write");
+        fs::write(bin_path, v).expect("x_x :: couldnt write");
     }
 }
 

@@ -9,7 +9,7 @@ fn main() {
         .arg("--release")
         .current_dir(Path::canonicalize(Path::new("./jokers")).unwrap())
         .status()
-        .expect("msg");
+        .expect("x_x :: you fucked up i guess");
     JokerLoader::create_joker(NAME);
     println!("{:?}", status.success());
 }

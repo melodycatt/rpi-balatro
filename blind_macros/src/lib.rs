@@ -62,7 +62,7 @@ pub fn derive_trait_getters(attr: proc_macro::TokenStream, item: proc_macro::Tok
         }
     });
 
-    let trait_ident = idents.next().expect("no trait identifier!");
+    let trait_ident = idents.next().expect("x_x :: no trait identifier!");
 
     let mut getters = TokenStream::new();
     let mut fields = TokenStream::new();
