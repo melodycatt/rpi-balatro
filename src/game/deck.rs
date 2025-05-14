@@ -23,7 +23,7 @@ impl<T: DeckType + 'static> Deck<T> {
         self.remaining_cards = self.cards.iter().map(|x| x.count ).zip(self.cards.clone()).collect();
     }
     pub fn score(&self, chips: f64, mult: f64) -> (f64, f64) { T::score(chips, mult) }
-    pub fn interest(&self, round_data: RoundData, multiplier: usize, max: usize) -> usize { T::interest(round_data, multiplier, max) }
+    pub fn interest(&self, game_data: GameData, round_data: RoundData, multiplier: usize, max: usize) -> usize { T::interest(game_data, round_data, multiplier, max) }
 
     pub fn new() -> Deck<T> {
         Deck::<T> {
@@ -61,7 +61,7 @@ pub trait DeckType {
     fn score(chips: f64, mult: f64) -> (f64, f64) {
         (chips, mult)
     }
-    fn interest(game_data: GameData, multiplier: usize, max: usize) -> usize {
+    fn interest(game_data: GameData, _round_data: RoundData, multiplier: usize, max: usize) -> usize {
         (num::Integer::div_floor(&game_data.money, &5).min(max)) * multiplier
     }
 }
@@ -118,7 +118,7 @@ impl DeckType for GreenDeck {
         consumables: Vec::new(),
     };
 
-    fn interest(round_data: RoundData, _multiplier: usize, _max: usize) -> usize {
+    fn interest(_game_data: GameData, round_data: RoundData, _multiplier: usize, _max: usize) -> usize {
         2 * round_data.hands + round_data.discards
     }
 }
