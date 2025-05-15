@@ -1,6 +1,7 @@
-mod load;
-pub use load::JokerLoader;
-use load::JOKER_LOADER;
+//mod load;
+mod joker_def;
+//pub use load::JokerLoader;
+//use load::{ApplyFunction, CashoutFunction, ScoreFunction, JOKER_LOADER};
 //this is a tiny function. really, its just for cleanliness and good practice,
 //so after i explain the one confusing part here, we'll command+click on load::JOKER_LOADER above
 //to see whats really going on.
@@ -17,18 +18,16 @@ use load::JOKER_LOADER;
 //and borrows of static values.
 //we just return a borrow of JOKER_LOADER by referencing it with no semicolon
 //ok, now cmd+click JOKER_LOADER above
-pub fn joker_loader() -> &'static JokerLoader { &JOKER_LOADER }
+//pub fn joker_loader() -> &'static JokerLoader { &JOKER_LOADER }
 
+use proc_wrapper_enum::wrapper_enum;
 //quite a few imports here! everything serde is for 'serializing' a type;
 //that is, turning it into 'serial' data that can be stored in storage
 //in this case im serializing it into binary. thats just what i chose, because its more fun that way
 //everything else, ill explain when we get to it
-use serde::ser::Serializer;
-use serde::de::Deserializer;
-use load::JokerApplyFunction;
-use libloading::Symbol;
 use serde::{Serialize, Deserialize};
-use crate::cards::{CardEdition, CardEnhancements};
+use crate::{cards::{Card, CardEdition}, game::{deck::DeckType, Game, GameData, RoundData}};
+use self::joker_def::*;
 
 //derive is a special marker.
 //rust has things called traits. when a struct 'implements' a trait, its basically saying
@@ -42,14 +41,14 @@ use crate::cards::{CardEdition, CardEnhancements};
 //derive is a thing that automatically generates code that implements Debug for you when you compile,
 //based on an algorithm
 //(because implementing traits like this is a trek and incredibly common)
-#[derive(Debug)]
+//#[derive(Debug)]
 //<'a> defines a lifetime for this struct. this is so that the Symbol below will also have
 //AT LEAST the lifetime 'a, so it can guarantee it lives long enough
 //you never actually say "this lives for 3 seconds"
 //its just automatically determined at compiletime based on when its made and when it can be dropped
 //so basically the lifetime is where in the code the value is dropped from memory
-pub struct Joker<'a> {
-    pub data: JokerData,
+//pub struct Joker<'a> {
+    //pub data: JokerData,
     //apply isnt public. heres why:
     //a symbol is a reference to a function from already compiled code.
     //it kinda acts like a normal function, except when its a inside a struct
@@ -64,12 +63,29 @@ pub struct Joker<'a> {
     //(a pointer to where the function is loaded in memory, implicitly defined by the name where the function is defined)
     //(i defined what a function signature is in main.rs)
     //cmd+click JokerApplyFunction to see what i mean, then come back
-    apply: Symbol<'a, JokerApplyFunction>
+    /*apply: Symbol<'a, ApplyFunction>,
+    cashout: Symbol<'a, CashoutFunction>,
+    score: Symbol<'a, ScoreFunction>,*/
+//}
+pub trait JokerType<'de>: Serialize+Deserialize<'de> {
+    fn name(&self) -> &'static str;
+    fn id(&self) -> &'static str;
+
+    fn enhancements(&mut self) -> &mut JokerEnhancements;
+
+    fn buy<T: DeckType>(&self, game: &mut Game<T>);
+    fn sell<T: DeckType>(&self, game: &mut Game<T>);
+    fn apply(&self, chips: &mut f64, mult: &mut f64);
+    fn score<T: DeckType>(&self, chips: &mut f64, mult: &mut f64, card: &mut Card, game: &mut Game<T>, retrigger: bool) -> bool;
+    fn cashout(&self, round_data: &RoundData, game_data: &GameData) -> usize;
 }
-impl<'a> Joker<'a> {
-    pub fn apply(&self, x: f64, y: f64) -> f64 {
-        (self.apply)(x, y)
-    }
+#[derive(Clone, Copy)]
+#[wrapper_enum]
+pub enum Joker {
+    Nothing,
+    Basic,
+    Stuntman,
+    Baron
 }
 
 //Symbols cant be serialized, but i want to be able to serialize an entire game,
@@ -78,61 +94,76 @@ impl<'a> Joker<'a> {
 //so instead, i make a custom implementation of the Serialize trait (instead of deriving it)
 //so that whenever something tries to serialize a Joker, the Joker skips itself
 //and just returns the serialization of its data
-impl<'a> Serialize for Joker<'a> {
+/*impl Serialize for dyn JokerData {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        self.data.serialize(serializer)
+        self.enhancements().serialize(serializer)
     }
-}
+}*/
+/* 
+impl<T: JokerData> Serialize for T {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: Serializer {
+        
+    }
+}*/
 
 //Deserializing a game will expect the entire Joker to be serialized
 //(if i was to derive Deserialize)
 //so i need a custom Deserialize implementation that actually deserializes the data as a JokerData
 //and creates the necessary symbol and constructs a new Joker
 //ill get into joker_loader().load_symbol() later
-impl<'a, 'de> Deserialize<'de> for Joker<'a> {
+/*impl<'de> Deserialize<'de> for dyn JokerData {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
-        let data = JokerData::deserialize(deserializer)?;
-        let apply = joker_loader().load_symbol(&data.id);
+        let e = CardEnhancements::deserialize(deserializer)?;
+        let symbols = joker_loader().load_symbol(e.id.clone());
 
         Ok(Joker {
             data,
-            apply,
+            apply: symbols.0,
+            score: symbols.1,
+            cashout: symbols.2
         })
     }
-}
+}*/
 
 //here, everything in JokerData implements Serialize by default so we can just derive it
 //same goes for Deserialize and Debug
 //(because these traits need to serialize, deserialize, and display the values inside them,
 //those values also need to implement those traits)
-#[derive(Serialize, Deserialize, Debug)]
+/*#[derive(Serialize, Deserialize, Debug)]
 pub struct JokerData {
     pub name: String,
     pub id: String,
     pub enhancements: JokerEnhancements,
-}
+}*/
+
 
 //Default has a single, static method.. default(). 
 //it returns an instance of the struct withe the "default" values
 //primitives have predefined defaults, and for other things you can define you own
-#[derive(Serialize, Deserialize, Default, Debug)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy)]
 pub struct JokerEnhancements {
     pub modifiers: JokerModifiers,
     pub edition: CardEdition,
 }
+/*#[derive(Serialize, Deserialize)]
+struct JokerSerialization {
+    e: JokerEnhancements,
+    id: String
+}*/
 
-#[derive(Serialize, Deserialize, Default, Debug)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy)]
 pub struct JokerModifiers {
     pub eternal: bool,
     pub perishable: bool,
     pub rental: bool,
-    pub e: CardEnhancements
 }
 
 //lets go to src/jokers/load.rs,

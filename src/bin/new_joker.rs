@@ -1,15 +1,15 @@
-use std::{path::Path, process::Command};
-use rpi_balatro::jokers::JokerLoader;
+/*use std::{path::Path, process::Command};
+//use rpi_balatro::jokers::JokerLoader;
 
 const NAME: &str = "showman";
-
+*/
 fn main() {
-    let status = Command::new("cargo")
+    /*let status = Command::new("cargo")
         .arg("build")
         .arg("--release")
         .current_dir(Path::canonicalize(Path::new("./jokers")).unwrap())
         .status()
         .expect("x_x :: you fucked up i guess");
-    JokerLoader::create_joker(NAME);
-    println!("{:?}", status.success());
+    JokerLoader::create_joker(NAME);*/
+    panic!("outdated");
 }

@@ -1,12 +1,10 @@
 use blinds::{BlindType, Scaling, BASE_SCORES, GREEN_SCORES, PURPLE_SCORES};
 use deck::{Deck, DeckType, PlasmaDeck};
-use rand::rng;
 use serde::{Deserialize, Serialize};
-use serde_binary::{to_vec, from_vec, binary_stream::Endian};
-use std::{any::{Any, TypeId}, collections::HashMap, env::{current_dir, current_exe}, fs, iter::Map};
-use crate::{cards::Card, jokers::Joker};
-mod blinds;
-mod deck;
+use std::{any::TypeId, collections::HashMap};
+use crate::{cards::{Card, CardKey, CardType}, jokers::Joker};
+pub mod blinds;
+pub mod deck;
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum Stake {
@@ -16,8 +14,8 @@ pub enum Stake {
     pub fn scaling(self) -> Scaling { todo!() }
 }
 #[derive(Serialize, Deserialize)]
-pub struct Game<'a, T: DeckType + 'static> {
-    pub jokers: Vec<Joker<'a>>,
+pub struct Game<T: DeckType + 'static> {
+    pub jokers: Vec<Joker>,
     pub stake: Stake,
     scaling: Scaling,
     pub deck: Deck::<T>,
@@ -26,7 +24,7 @@ pub struct Game<'a, T: DeckType + 'static> {
     pub round_data: RoundData
 }
 
-impl<'a, T: DeckType + 'static> Game<'a, T> {
+impl<T: DeckType + 'static> Game<T> {
     const K: f64 = 0.75;
     pub fn ante_base_score(&self) -> f64 {
         if self.game_data.ante < 1 {
@@ -68,17 +66,51 @@ impl<'a, T: DeckType + 'static> Game<'a, T> {
         self.draw();
     }
 
+    pub fn play(&mut self) -> Result<f64, NoCards> {
+        let mut chips = 0.0;
+        let mut mult = 0.0;
+        self.round_data.selected.sort_by(|x, y| y.rank.cmp(&x.rank));
+        let mut card_map = HashMap::<CardKey, Card>::new();
+        for i in 0..self.round_data.selected.len() {
+            let key = CardKey::from(self.round_data.selected[i]);
+            card_map.entry(key)
+                .and_modify(|e| e.count += 1)
+                .or_insert(self.round_data.selected[i]);
+        }
+        self.round_data.selected = card_map.values().cloned().collect();
+        let count = self.round_data.selected.iter().fold(0, |acc, x| acc + x.count);
+        if count == 1 { 
+            let d = self.round_data.selected[0].clone().score(&mut chips, &mut mult, self); 
+            self.deck.remaining_cards.iter_mut().find(|x| x.1 == self.round_data.selected[0]).unwrap().0 += self.round_data.selected[0].count - 2;
+            if d { 
+                self.deck.cards.iter_mut().find(|x| **x == self.round_data.selected[0]).unwrap().count -= 1;
+            }
+        }
+        for card in card_map.values() {
+            if card.enhancements.card_type == CardType::Stone {
+                card.score(chips, mult, game)
+            }
+        }
+        let score = T::score(chips, mult);
+        Ok(score.0 * score.1)
+    }
+
     pub fn draw(&mut self) {
-        for _ in 0..(self.hand_size() - self.round_data.hand.len()) {
+        let n = if self.round_data.blind == BlindType::Serpent { 3 } else { self.hand_size() - self.round_data.hand.len() };
+        for _ in 0..n {
             self.round_data.hand.push(self.deck.pick());
         }
+    }
+
+    pub fn hand_score(&mut self) -> (f64, f64) {
+        todo!()
     }
     
     pub fn hand_size(&self) -> usize {
         (8 + T::CONFIG.hand_size) as usize
     }
 
-    pub fn new(stake: Stake) -> Game<'a, T> {
+    pub fn new(stake: Stake) -> Game<T> {
         Self {
             jokers: vec![],
             stake,
@@ -88,6 +120,13 @@ impl<'a, T: DeckType + 'static> Game<'a, T> {
             game_data: GameData::new::<T>(),
             round_data: RoundData::new::<T>()
         }
+    }
+}
+
+pub struct NoCards;
+impl std::fmt::Display for NoCards {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "no cards selected")
     }
 }
 
@@ -120,7 +159,8 @@ pub struct RoundData {
     pub hands: usize,
     pub discards: usize,
     pub blind: BlindType,
-    pub hand: Vec<Card>
+    pub hand: Vec<Card>,
+    pub selected: Vec<Card>
 }
 impl RoundData {
     fn new<T: DeckType>() -> Self {
@@ -128,7 +168,8 @@ impl RoundData {
             hands: (4 + T::CONFIG.hands) as usize,
             discards: (3 + T::CONFIG.discards) as usize,
             blind: BlindType::Small,
-            hand: Vec::new()
+            hand: Vec::new(),
+            selected: Vec::new()
         }
     }
     fn new_round<T: DeckType>(game: &Game<T>) -> Self {
@@ -136,7 +177,8 @@ impl RoundData {
             hands: game.game_data.hands,
             discards: game.game_data.discards,
             blind: game.blinds[game.game_data.current_blind],
-            hand: Vec::new()
+            hand: Vec::new(),
+            selected: Vec::new()
         }
     }
 }

@@ -43,7 +43,7 @@ pub enum Scaling {
     Green,
     Purple,
 }
-#[derive(Serialize, Deserialize, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive, PartialEq, Eq)]
 #[serde(into = "u16", try_from = "u16")]
 #[repr(u16)]
 pub enum BlindType {

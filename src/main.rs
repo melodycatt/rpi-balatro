@@ -92,11 +92,11 @@ pub fn main() {
     println!("{:?}", cwd.unwrap().as_path());
 
     //here we use a function imported from rpi_balatro::jokers. command+click it to look into it
-    let loader = joker_loader();
-    let joker = loader.load_joker("Showman");
-    println!("{:#?}, {}", joker, joker.apply(0.2, 0.3));
-    joker.apply(0.2, 0.3);
+    //let loader = joker_loader();
+    //let joker = loader.load_joker("Showman".to_owned());
+    //println!("{:#?}, {}", joker, joker.apply(0.2, 0.3));
+    //joker.apply(0.2, 0.3);
 
     //ignore
-    let x = game::Game::new(game::Stake::White);
+    //let x = game::Game::new(game::Stake::White);
 }

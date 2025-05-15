@@ -1,9 +1,8 @@
-use std::{any::Any, collections::HashMap, marker::PhantomData};
+use std::marker::PhantomData;
 
-use blind_macros::{derive_trait_getters, generate_trait_getters};
 use const_default::ConstDefault;
 use num_enum::TryFromPrimitive;
-use rand::{distr::{weighted::WeightedIndex, Distribution}, random_range, rngs::ThreadRng, Rng};
+use rand::{distr::{weighted::WeightedIndex, Distribution}, random_range};
 use serde::{Deserialize, Serialize};
 use crate::{cards::{Card, CardSuit}, vouchers::{VoucherLevel, Vouchers}};
 
@@ -11,8 +10,8 @@ use super::{GameData, RoundData};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Deck<T: DeckType + 'static> {
-    cards: Vec<Card>,
-    remaining_cards: Vec<(usize, Card)>,
+    pub cards: Vec<Card>,
+    pub remaining_cards: Vec<(usize, Card)>,
     deck_type_phantom: PhantomData<T>
 }
 
@@ -30,6 +29,21 @@ impl<T: DeckType + 'static> Deck<T> {
             cards: Vec::new(),
             remaining_cards:Vec::new(),
             deck_type_phantom: PhantomData
+        }
+    }
+
+    pub fn push(&mut self, card: Card, add_remaining: bool) {
+        if let Some(ex) = self.cards.iter_mut().find(|x| **x == card) {
+            ex.count += card.count;
+        } else {
+            self.cards.push(card);
+        }
+        if add_remaining {
+            if let Some(ex) = self.remaining_cards.iter_mut().find(|x| x.1 == card) {
+                ex.1.count += card.count;
+            } else {
+                self.remaining_cards.push((card.count, card));
+            }
         }
     }
 

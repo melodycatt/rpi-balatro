@@ -44,16 +44,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5c8214115b7bf84099f1309324e63141d4c5d7cc26862f97a0a857dbefe165bd"
 
 [[package]]
-name = "blind_macros"
-version = "0.1.0"
-dependencies = [
- "itertools",
- "proc-macro2",
- "quote",
- "syn 2.0.101",
-]
-
-[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -90,10 +80,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "either"
-version = "1.15.0"
+name = "enum-assoc"
+version = "1.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
+checksum = "4f4b100e337b021ae69f3e7dd82e230452c54ff833958446c4a3854c66dc9326"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
+]
 
 [[package]]
 name = "equivalent"
@@ -127,15 +122,6 @@ checksum = "cea70ddb795996207ad57735b50c5982d8844f38ba9ee5f1aedcfb708a2aa11e"
 dependencies = [
  "equivalent",
  "hashbrown",
-]
-
-[[package]]
-name = "itertools"
-version = "0.14.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
-dependencies = [
- "either",
 ]
 
 [[package]]
@@ -316,6 +302,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "proc_wrapper_enum"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -364,14 +359,15 @@ name = "rpi-balatro"
 version = "0.1.0"
 dependencies = [
  "bincode",
- "blind_macros",
  "const-default",
  "convert_case",
+ "enum-assoc",
  "libloading",
  "num",
  "num_enum",
  "once_cell",
  "phf",
+ "proc_wrapper_enum",
  "rand",
  "serde",
  "serde-binary",

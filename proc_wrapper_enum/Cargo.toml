@@ -1,5 +1,5 @@
 [package]
-name = "blind_macros"
+name = "proc_wrapper_enum"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,7 +7,6 @@ edition = "2024"
 proc-macro = true
 
 [dependencies]
-itertools = "0.14.0"
 proc-macro2 = "1.0.94"
 quote = "1.0.40"
 syn ={ version = "2.0.100", features = ["full"] }

@@ -8,6 +8,8 @@
 //And-So-On
 //std::fs stands for file service. for reading and writing files
 use libloading::{Library, Symbol};
+use crate::{cards::Card, game::{Game, GameData, RoundData}};
+
 use super::{Joker, JokerData, JokerEnhancements};
 use convert_case::{Case, Casing};
 use serde_binary::{to_vec, from_vec, binary_stream::Endian};
@@ -27,11 +29,13 @@ use once_cell::sync::Lazy;
 //load is a submodule of jokers, jokers is the supermodule of load
 //the "x_x :: " in that expect error message is just a fun style thing
 //x_x is a little dead face
-pub(super) static JOKER_LOADER: Lazy<JokerLoader> = Lazy::new(|| JokerLoader::new().expect("x_x :: Failed to load library"));
+//pub(super) static JOKER_LOADER: Lazy<JokerLoader> = Lazy::new(|| JokerLoader::new().expect("x_x :: Failed to load library"));
 //ok go back to jokers/mod.rs
 
 
-pub type JokerApplyFunction = fn(f64, f64) -> f64;
+//pub type ApplyFunction = fn(&Joker, &mut f64, &mut f64);
+//pub type ScoreFunction = fn(&Joker, &mut f64, &mut f64, &mut Card, &mut Game<T>, bool) -> bool;
+//pub type CashoutFunction = fn(&Joker, &RoundData, &GameData) -> usize;
 //this is a struct for loading joker templates ive saved
 //i do this so i dont need to hardcode the effects of each one,
 //and instead i can compile them into a binary library
@@ -71,13 +75,21 @@ impl JokerLoader {
         }
     }
 
-    pub fn load_joker(&self, joker_id: &str) -> Joker {
+    pub fn load_joker(&self, joker_id: String) -> Joker {
         //some more unsafe code, because we dont know if the the function were getting is safe
         //format! is a macro that works similar to println!, but instead of printing anything
         //it returns the String that println! would normally print
-        let apply: Symbol<'_, JokerApplyFunction> = unsafe {
-            self.lib.get(joker_id.as_bytes())
+        let apply: Symbol<'_, ApplyFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_apply").as_bytes())
                 .expect(format!("x_x :: failed to load {joker_id} apply function").as_str())
+        };
+        let score: Symbol<'_, ScoreFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_score").as_bytes())
+                .expect(format!("x_x :: failed to load {joker_id} score function").as_str())
+        };
+        let cashout: Symbol<'_, CashoutFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_cashout").as_bytes())
+                .expect(format!("x_x :: failed to load {joker_id} cashout function").as_str())
         };
 
         //we get the path to where the jokers are stored
@@ -91,17 +103,28 @@ impl JokerLoader {
         //return a new joker by declaring it with no semicolon
         Joker {
             data,
-            apply
+            apply,
+            score,
+            cashout
         }
     }
 
     //this function does the same as above without the jokerdata
     //only used for deserializing a Joker
-    pub fn load_symbol(&self, joker_id: &str) -> Symbol<'_, JokerApplyFunction> {
-        unsafe {
-            self.lib.get(joker_id.as_bytes())
-                .expect(format!("x_x :: failed to load {} apply function", joker_id).as_str())
-        }
+    pub fn load_symbol(&self, joker_id: String) -> (Symbol<'_, ApplyFunction>, Symbol<'_, ScoreFunction>, Symbol<'_, CashoutFunction>) {
+        let apply: Symbol<'_, ApplyFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_apply").as_bytes())
+                .expect(format!("x_x :: failed to load {joker_id} apply function").as_str())
+        };
+        let score: Symbol<'_, ScoreFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_score").as_bytes())
+                .expect(format!("x_x :: failed to load {joker_id} score function").as_str())
+        };
+        let cashout: Symbol<'_, CashoutFunction> = unsafe {
+            self.lib.get((joker_id.clone() + "_cashout").as_bytes())
+                .expect(format!("x_x :: failed to load {joker_id} cashout function").as_str())
+        };
+        (apply, score, cashout)
     }
 
     //for creating new jokers, only used for that
@@ -118,5 +141,4 @@ impl JokerLoader {
         fs::write(bin_path, v).expect("x_x :: couldnt write");
     }
 }
-
 //lets go to cards.rs now

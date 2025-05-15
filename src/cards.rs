@@ -1,3 +1,4 @@
+use rand::Rng;
 //serde again, but also num_enum
 //this is to avoid problems with serializing a special type called an enum
 //it allows you to convert enums into primitive number types
@@ -7,12 +8,14 @@
 use serde::{Deserialize, Serialize};
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 
+use crate::{game::{deck::DeckType, Game}, jokers::JokerType};
+
 #[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub struct Card {
     pub enhancements: CardEnhancements,
     pub rank: u8,
     pub suit: CardSuit,
-    pub count: usize
+    pub count: usize,
 }
 impl Card {
     pub fn new_default(suit: CardSuit, rank: u8) -> Self {
@@ -20,7 +23,7 @@ impl Card {
             enhancements: CardEnhancements::default(),
             rank,
             suit,
-            count: 1
+            count: 1,
         }
     }
     pub fn new(suit: CardSuit, rank: u8, enhancements: CardEnhancements) -> Self {
@@ -28,7 +31,7 @@ impl Card {
             enhancements,
             rank,
             suit,
-            count: 1
+            count: 1,
         }
     }
 
@@ -36,9 +39,91 @@ impl Card {
         self.count = count;
         self
     }
+    pub fn score<T: DeckType>(&mut self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>) -> bool {
+        *chips += self.rank as f64;
+        let mut rng = rand::rng();
+        let mut destroyed = false;
+        for j in 0..game.jokers.len() {
+            let j = game.jokers[j];
+            destroyed |= j.score(chips, mult, self, game, false);
+        }
+        match self.enhancements.card_type {
+            CardType::Bonus => *chips += 30.0,
+            CardType::Mult => *mult += 4.0,
+            CardType::Glass => { *mult *= 2.0; if rng.random_range(0..4) == 0 { destroyed = true } },
+            CardType::Lucky => { if rng.random_range(0..5) == 0 { *mult += 20.0 }; if rng.random_range(0..15) == 0 { game.game_data.money += 20 } },
+            CardType::Stone => { *chips -= self.rank as f64; *chips += 50.0 },
+            _ => {}
+        }
+        match self.enhancements.edition {
+            CardEdition::Foil => *chips += 50.0,
+            CardEdition::Holographic => *mult += 10.0,
+            CardEdition::Polychrome => *mult *= 1.5,
+            _ => {}
+        }
+        match self.enhancements.seal {
+            CardSeal::Red => { destroyed |= self.retrigger(chips, mult, game);},
+            _ => {}
+        };
+        destroyed
+    }
+    pub fn retrigger<T: DeckType>(&mut self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>) -> bool {
+        /*let mut chain = TriggerChain {
+            child: None,
+            source: RetriggerSource::RedSeal
+        };*/
+        //trigger_chain_add!(chain, RetriggerSource::RedSeal);
+        let mut rng = rand::rng();
+        let mut destroyed = false;
+        for j in 0..game.jokers.len() {
+            let j = game.jokers[j];
+            destroyed |= j.score(chips, mult, self, game, true);
+        }
+        match self.enhancements.card_type {
+            CardType::Bonus => *chips += 30.0,
+            CardType::Mult => *mult += 4.0,
+            CardType::Glass => { *mult *= 2.0 },
+            CardType::Lucky => { if rng.random_range(0..5) == 0 { *mult += 20.0 }; if rng.random_range(0..15) == 0 { game.game_data.money += 20 } },
+            CardType::Stone => { *chips -= self.rank as f64; *chips += 50.0 },
+            _ => {}
+        };
+        match self.enhancements.edition {
+            CardEdition::Foil => *chips += 50.0,
+            CardEdition::Holographic => *mult += 10.0,
+            CardEdition::Polychrome => *mult *= 1.5,
+            _ => {}
+        };
+        match self.enhancements.seal {
+            CardSeal::Gold => game.game_data.money += 3,
+            _ => {}
+        };
+        destroyed
+    }
+}
+impl PartialEq for Card {
+    fn eq(&self, other: &Self) -> bool {
+        ((self.suit == other.suit && self.rank == other.rank) || self.enhancements.card_type == CardType::Stone) &&
+        self.enhancements == other.enhancements
+    }
 }
 
-#[derive(Serialize, Deserialize, Debug,  Default, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Hash, PartialEq, Eq, Clone, Copy)]
+pub struct CardKey {
+    rank: u8,
+    enhancements: CardEnhancements,
+    suit: CardSuit
+}
+impl From<Card> for CardKey {
+    fn from(value: Card) -> Self {
+        Self {
+            rank: value.rank,
+            enhancements: value.enhancements,
+            suit: value.suit
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug,  Default, Clone, Copy, IntoPrimitive, TryFromPrimitive, Hash, PartialEq, Eq)]
 //this tells serde to turn the enum into a primitive u16 when serializing and deserialize it from a u16
 #[serde(into = "u16", try_from = "u16")]
 //repr stands for representation - the enum will be represented as a u16 in memory...
@@ -65,7 +150,7 @@ pub enum CardSuit {
     Diamonds
 }
 
-#[derive(Serialize, Deserialize, Clone, Copy, Default, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Default, Debug, Hash, PartialEq, Eq)]
 pub struct CardEnhancements {
     pub card_type: CardType,
     pub edition: CardEdition,
@@ -77,7 +162,7 @@ pub struct CardEnhancements {
     }
 }*/
 
-#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive, Hash, PartialEq, Eq)]
 #[serde(into = "u16", try_from = "u16")]
 #[repr(u16)]
 pub enum CardType {
@@ -92,7 +177,7 @@ pub enum CardType {
     #[default] None
 }
 
-#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive, Hash, PartialEq, Eq)]
 #[serde(into = "u16", try_from = "u16")]
 #[repr(u16)]
 pub enum CardEdition {
@@ -102,12 +187,13 @@ pub enum CardEdition {
     Foil = 3,
     Negative = 4,
 }
-#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, Copy, IntoPrimitive, TryFromPrimitive, Hash, PartialEq, Eq)]
 #[serde(into = "u16", try_from = "u16")]
 #[repr(u16)]
 pub enum CardSeal {
     Red,
     Blue,
     Purple,
+    Gold,
     #[default] None
 }
