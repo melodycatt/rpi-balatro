@@ -39,7 +39,8 @@ impl Card {
         self.count = count;
         self
     }
-    pub fn score<T: DeckType>(&mut self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>) -> bool {
+    pub fn score<T: DeckType>(&mut self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>) {
+        let i = game.deck.cards.iter().position(|x| *x == *self).unwrap();
         *chips += self.rank as f64;
         let mut rng = rand::rng();
         let mut destroyed = false;
@@ -65,7 +66,10 @@ impl Card {
             CardSeal::Red => { destroyed |= self.retrigger(chips, mult, game);},
             _ => {}
         };
-        destroyed
+        game.deck.cards[i].count -= 1;
+        if !destroyed {
+            game.deck.push(*self, false);
+        }
     }
     pub fn retrigger<T: DeckType>(&mut self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>) -> bool {
         /*let mut chain = TriggerChain {
@@ -102,17 +106,36 @@ impl Card {
 }
 impl PartialEq for Card {
     fn eq(&self, other: &Self) -> bool {
-        ((self.suit == other.suit && self.rank == other.rank) || self.enhancements.card_type == CardType::Stone) &&
+        ((self.suit == other.suit && self.rank == other.rank) && self.enhancements.card_type != CardType::Stone) &&
+        self.enhancements == other.enhancements
+    }
+}
+impl PartialEq<CardKey> for Card {
+    fn eq(&self, other: &CardKey) -> bool {
+        ((self.suit == other.suit && self.rank == other.rank) && self.enhancements.card_type != CardType::Stone) &&
         self.enhancements == other.enhancements
     }
 }
 
-#[derive(Hash, PartialEq, Eq, Clone, Copy)]
+#[derive(Hash, Eq, Clone, Copy)]
 pub struct CardKey {
-    rank: u8,
-    enhancements: CardEnhancements,
-    suit: CardSuit
+    pub rank: u8,
+    pub enhancements: CardEnhancements,
+    pub suit: CardSuit
 }
+impl PartialEq for CardKey {
+    fn eq(&self, other: &Self) -> bool {
+        ((self.suit == other.suit && self.rank == other.rank) && self.enhancements.card_type != CardType::Stone) &&
+        self.enhancements == other.enhancements
+    }
+}
+impl PartialEq<Card> for CardKey {
+    fn eq(&self, other: &Card) -> bool {
+        ((self.suit == other.suit && self.rank == other.rank) && self.enhancements.card_type != CardType::Stone) &&
+        self.enhancements == other.enhancements
+    }
+}
+
 impl From<Card> for CardKey {
     fn from(value: Card) -> Self {
         Self {
@@ -196,4 +219,35 @@ pub enum CardSeal {
     Purple,
     Gold,
     #[default] None
+}
+
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub enum HandType {
+    #[default]
+    HighCard,
+    Pair,
+    TwoPair,
+    ThreeOak,
+    Flush,
+    Straight,
+    FullHouse,
+    FourOak,
+    StraightFlush,
+    FiveOak,
+    FlushHouse,
+    FlushFive
+}
+impl HandType {
+    pub fn flush(self) -> Self {
+        match self {
+            Self::FiveOak => Self::FlushFive,
+            Self::FlushFive => self,
+            Self::FullHouse => Self::FlushHouse,
+            Self::FlushHouse => self,
+            Self::Straight => Self::StraightFlush,
+            Self::StraightFlush => self,
+            Self::FourOak => self,
+            _ => Self::Flush
+        }
+    }
 }

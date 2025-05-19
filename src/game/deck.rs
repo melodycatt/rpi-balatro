@@ -11,22 +11,23 @@ use super::{GameData, RoundData};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Deck<T: DeckType + 'static> {
     pub cards: Vec<Card>,
-    pub remaining_cards: Vec<(usize, Card)>,
+    pub remaining_cards: Vec<Card>,
     deck_type_phantom: PhantomData<T>
 }
 
 impl<T: DeckType + 'static> Deck<T> {
     pub fn initialise_cards(&mut self) { 
-        self.cards.clear(); 
-        T::initialise_cards(&mut self.cards);
-        self.remaining_cards = self.cards.iter().map(|x| x.count ).zip(self.cards.clone()).collect();
+        self.remaining_cards.clear(); 
+        self.remaining_cards = self.cards.clone();
     }
     pub fn score(&self, chips: f64, mult: f64) -> (f64, f64) { T::score(chips, mult) }
     pub fn interest(&self, game_data: GameData, round_data: RoundData, multiplier: usize, max: usize) -> usize { T::interest(game_data, round_data, multiplier, max) }
 
     pub fn new() -> Deck<T> {
+        let mut cards = Vec::new();
+        T::initialise_cards(&mut cards);
         Deck::<T> {
-            cards: Vec::new(),
+            cards: cards,
             remaining_cards:Vec::new(),
             deck_type_phantom: PhantomData
         }
@@ -39,10 +40,10 @@ impl<T: DeckType + 'static> Deck<T> {
             self.cards.push(card);
         }
         if add_remaining {
-            if let Some(ex) = self.remaining_cards.iter_mut().find(|x| x.1 == card) {
-                ex.1.count += card.count;
+            if let Some(ex) = self.remaining_cards.iter_mut().find(|x| **x == card) {
+                ex.count += card.count;
             } else {
-                self.remaining_cards.push((card.count, card));
+                self.remaining_cards.push(card.clone());
             }
         }
     }
@@ -51,11 +52,11 @@ impl<T: DeckType + 'static> Deck<T> {
         let mut rng = rand::rng();
         let weights = self.weights();
         let pick = weights.sample(&mut rng);
-        self.remaining_cards[pick].0 -= 1;
-        self.remaining_cards[pick].1
+        self.remaining_cards[pick].count -= 1;
+        self.remaining_cards[pick].clone().with_count(1)
     }
     pub fn weights(&self) -> WeightedIndex<usize> {
-        let weights: Vec<usize> = self.remaining_cards.iter().map(|x| x.0).collect();
+        let weights: Vec<usize> = self.remaining_cards.iter().map(|x| x.count).collect();
         WeightedIndex::new(&weights).expect("x_x :: ???")
     }
 }

@@ -2,12 +2,11 @@
 
 //use itertools::{Itertools, IntoChunks, Chunk, Chunks, ChunkBy};
 //use proc_macro::Ident;
-use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use syn::{parse_macro_input, ItemEnum};
 
 #[proc_macro_attribute]
-pub fn wrapper_enum(attr: proc_macro::TokenStream, item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+pub fn wrapper_enum(_attr: proc_macro::TokenStream, item: proc_macro::TokenStream) -> proc_macro::TokenStream {
     //let attr = TokenStream::from(attr);
     //let prefix = attr.into_iter().next().unwrap().to_string();
     let enum_def = parse_macro_input!(item as ItemEnum);
@@ -55,9 +54,9 @@ pub fn wrapper_enum(attr: proc_macro::TokenStream, item: proc_macro::TokenStream
                 #(Self::#match_variants5(__we_self) => __we_self.sell(game)),*
             }
         }
-        fn apply(&self, chips: &mut f64, mult: &mut f64)  {
+        fn apply<T: DeckType>(&self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>, hand: HandType)  {
             match self {
-                #(Self::#match_variants6(__we_self) => __we_self.apply(chips, mult)),*
+                #(Self::#match_variants6(__we_self) => __we_self.apply(chips, mult, game, hand)),*
             }
         }
         fn score<T: DeckType>(&self, chips: &mut f64, mult: &mut f64, card: &mut Card, game: &mut Game<T>, retrigger: bool) -> bool {

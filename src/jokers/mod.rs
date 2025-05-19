@@ -26,7 +26,7 @@ use proc_wrapper_enum::wrapper_enum;
 //in this case im serializing it into binary. thats just what i chose, because its more fun that way
 //everything else, ill explain when we get to it
 use serde::{Serialize, Deserialize};
-use crate::{cards::{Card, CardEdition}, game::{deck::DeckType, Game, GameData, RoundData}};
+use crate::{cards::{Card, CardEdition, HandType}, game::{deck::DeckType, Game, GameData, RoundData}};
 use self::joker_def::*;
 
 //derive is a special marker.
@@ -75,7 +75,7 @@ pub trait JokerType<'de>: Serialize+Deserialize<'de> {
 
     fn buy<T: DeckType>(&self, game: &mut Game<T>);
     fn sell<T: DeckType>(&self, game: &mut Game<T>);
-    fn apply(&self, chips: &mut f64, mult: &mut f64);
+    fn apply<T: DeckType>(&self, chips: &mut f64, mult: &mut f64, game: &mut Game<T>, hand: HandType);
     fn score<T: DeckType>(&self, chips: &mut f64, mult: &mut f64, card: &mut Card, game: &mut Game<T>, retrigger: bool) -> bool;
     fn cashout(&self, round_data: &RoundData, game_data: &GameData) -> usize;
 }
