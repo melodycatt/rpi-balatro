@@ -1,0 +1,88 @@
+
+(rules PCB rpi-balatro-board.dsn
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute off)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 4.0)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 3.2)
+    )
+  )
+  (rule
+    (width 200.0)
+    (clearance 200.0)
+    (clearance 100.0 (type smd_to_turn_gap))
+    (clearance 50.0 (type smd))
+    (clearance 200.0 (type "kicad_default"))
+  )
+  (padstack "Via[0-1]_600:300_um"
+    (shape
+      (circle F.Cu 600.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:300_um" "Via[0-1]_600:300_um" default
+  )
+  (via 
+    "Via[0-1]_600:300_um-kicad_default" "Via[0-1]_600:300_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_600:300_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_600:300_um-kicad_default"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 200.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    "Net-(B4-Pin_1)" "Net-(B3-Pin_1)" "Net-(D1-A)" "Net-(B1-Pin_1)" "Net-(D2-A)" "Net-(B2-Pin_1)" "Net-(D7-A)" "Net-(J1-Pin_1)"
+    "Net-(IRQ1-Pin_1)" "Net-(M1-MISO)" "Net-(M1-MOSI)" "Net-(GND1-Pin_1)" "Net-(3V1-Pin_1)" "Net-(D3-A)" "Net-(M1-SCK)" "Net-(M1-RST)"
+    "Net-(5V1-Pin_1)" "Net-(U2-ISET)" "unconnected-(U1-DOUT-Pad24)" "Net-(D5-A)" "Net-(U1-DIN)" "Net-(MAXCS1-Pin_1)" "Net-(SCS1-Pin_1)" "unconnected-(U3-QH-Pad7)"
+    "Net-(D6-A)" "unconnected-(U3-QH'-Pad9)" "unconnected-(U16-CC-Pad3)" "unconnected-(U19-CC-Pad3)" "unconnected-(U20-CC-Pad3)" "Net-(U1-ISET)" "unconnected-(U21-CC-Pad3)" "/digit_max_2/SEG_F"
+    "/digit_max_2/DIG_3" "/digit_max_2/DIG_4" "/digit_max_2/DIG_0" "/digit_max_2/DIG_2" "/digit_max_2/SEG_E" "/digit_max_2/SEG_DP" "/digit_max_2/DIG_1" "unconnected-(U22-CC-Pad3)"
+    "/digit_max_2/SEG_A" "/digit_max_2/SEG_D" "/digit_max_2/SEG_B" "/digit_max_2/DIG_5" "/digit_max_2/SEG_G" "/digit_max_2/SEG_C" "/digit_max_1/DIG_0" "/digit_max_1/SEG_DP"
+    "unconnected-(U23-CC-Pad3)" "unconnected-(U24-CC-Pad3)" "/digit_max_1/SEG_D" "/digit_max_1/DIG_1" "/digit_max_1/SEG_G" "/digit_max_1/SEG_C" "/digit_max_1/SEG_E" "/digit_max_1/DIG_4"
+    "/digit_max_1/SEG_A" "/digit_max_1/DIG_3" "/digit_max_1/DIG_2" "/digit_max_1/SEG_F" "/digit_max_1/SEG_B" "/digit_max_1/DIG_5" "unconnected-(U11-CC-Pad3)" "unconnected-(U12-CC-Pad3)"
+    "unconnected-(U13-CC-Pad3)" "unconnected-(U14-CC-Pad3)" "unconnected-(U15-CC-Pad3)" "Net-(D8-A)" "Net-(D9-A)" "Net-(D10-A)" "Net-(D11-A)" "Net-(D12-A)"
+    "Net-(D13-A)" "Net-(M1-SDA)" "Net-(M2-SDA)" "Net-(M3-SDA)" "Net-(M4-SDA)" "Net-(M5-SDA)" "Net-(M6-SDA)" "Net-(J7-Pin_1)"
+    "/digit_max_1/DIG_7" "/digit_max_1/DIG_6" "Net-(J2-Pin_1)" "Net-(J3-Pin_1)" "Net-(J4-Pin_1)" "Net-(J5-Pin_1)" "Net-(J6-Pin_1)" "Net-(D4-A)"
+    "unconnected-(U17-CC-Pad3)" "unconnected-(U18-CC-Pad3)"
+    (clearance_class "kicad_default")
+    (via_rule "kicad_default")
+    (rule
+      (width 200.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

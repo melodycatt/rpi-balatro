@@ -10497,7 +10497,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sheetfile" "dig_max_1.kicad_sch"
+		(property "Sheetfile" "dig_max_2.kicad_sch"
 			(at 123.7746 118.11 90)
 			(effects
 				(font

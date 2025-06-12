@@ -1,0 +1,98 @@
+
+(rules PCB rpi-balatro.dsn
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute off)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 3.9)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 3.2)
+    )
+  )
+  (rule
+    (width 200.0)
+    (clearance 200.0)
+    (clearance 100.0 (type smd_to_turn_gap))
+    (clearance 50.0 (type smd))
+    (clearance 200.0 (type "kicad_default"))
+  )
+  (padstack "Via[0-1]_600:300_um"
+    (shape
+      (circle F.Cu 600.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:300_um" "Via[0-1]_600:300_um" default
+  )
+  (via 
+    "Via[0-1]_600:300_um-kicad_default" "Via[0-1]_600:300_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_600:300_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_600:300_um-kicad_default"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 200.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    "unconnected-(J1-~{CE0}_SPI0{slash}GPIO08-Pad24)" "unconnected-(J1-GPIO23{slash}SDIO_CMD-Pad16)" "unconnected-(J1-GPIO15{slash}UART_RXD-Pad10)" "unconnected-(J1-GPCLK1{slash}GPIO05-Pad29)" "unconnected-(J1-GPIO24{slash}SDIO_DAT0-Pad18)" "unconnected-(J1-ID_SC_I2C0{slash}GPIO01-Pad28)" "Net-(J1-GND-Pad14)" "unconnected-(J1-GPIO26{slash}SDIO_DAT2-Pad37)"
+    "unconnected-(J1-GPCLK2{slash}GPIO06-Pad31)" "unconnected-(J1-GPIO25{slash}SDIO_DAT1-Pad22)" "unconnected-(J1-GPIO16{slash}SPI1_~{CE2}-Pad36)" "unconnected-(J1-GPIO12{slash}PWM0-Pad32)" "unconnected-(J1-GPIO21{slash}SPI1_SCLK{slash}PCM_DOUT-Pad40)" "unconnected-(J1-ID_SD_I2C0{slash}GPIO00-Pad27)" "unconnected-(J1-GPCLK0{slash}GPIO04-Pad7)" "unconnected-(J1-GPIO27{slash}SDIO_DAT3-Pad13)"
+    "Net-(J1-SCLK_SPI0{slash}GPIO11)" "unconnected-(J1-SDA_I2C1{slash}GPIO02-Pad3)" "Net-(J1-MOSI_SPI0{slash}GPIO10)" "unconnected-(J1-GPIO17{slash}SPI1_~{CE1}-Pad11)" "unconnected-(J1-SCL_I2C1{slash}GPIO03-Pad5)" "Net-(J1-3V3-Pad1)" "unconnected-(J1-MISO_SPI0{slash}GPIO09-Pad21)" "unconnected-(J1-GPIO20{slash}SPI1_MOSI{slash}PCM_DIN{slash}PWM1-Pad38)"
+    "unconnected-(J1-GPIO19{slash}SPI1_MISO{slash}PCM_FS-Pad35)" "unconnected-(J1-GPIO18{slash}SPI1_~{CE0}{slash}PCM_CLK{slash}PWM0-Pad12)" "unconnected-(J1-GPIO14{slash}UART_TXD-Pad8)" "unconnected-(J1-GPIO22{slash}SDIO_CLK-Pad15)" "unconnected-(J1-GPIO13{slash}PWM1-Pad33)" "Net-(J1-~{CE1}_SPI0{slash}GPIO07)" "Net-(U2-V+)" "Net-(U3-ISET)"
+    "Net-(U4-ISET)" "Net-(U6-ISET)" "Net-(U8-ISET)" "/digit_max_2/DIG_3" "/digit_max_2/SEG_E" "/digit_max_2/SEG_A" "/digit_max_2/SEG_D" "/digit_max_2/SEG_B"
+    "/digit_max_2/SEG_G" "/digit_max_2/DIG_2" "/digit_max_2/SEG_C" "/digit_max_2/DIG_5" "Net-(U2-ISET)" "/digit_max_2/DIG_1" "/digit_max_2/DIG_4" "/digit_max_2/DIG_6"
+    "/digit_max_2/SEG_DP" "/digit_max_2/DIG_0" "/digit_max_2/SEG_F" "/digit_max_2/DIG_7" "/digit_max_6/DIG_5" "/digit_max_6/SEG_E" "/digit_max_6/SEG_C" "/digit_max_6/SEG_DP"
+    "/digit_max_6/DIG_3" "/digit_max_6/SEG_G" "/digit_max_6/DIG_2" "/digit_max_6/DIG_0" "/digit_max_6/DIG_6" "/digit_max_6/SEG_B" "/digit_max_6/DIG_7" "/digit_max_6/SEG_F"
+    "/digit_max_6/SEG_A" "/digit_max_6/DIG_1" "/digit_max_6/DIG_4" "/digit_max_6/SEG_D" "unconnected-(U10-CC-Pad3)" "unconnected-(U19-CC-Pad3)" "unconnected-(U20-CC-Pad3)" "unconnected-(U21-CC-Pad3)"
+    "unconnected-(U22-CC-Pad3)" "unconnected-(U23-CC-Pad3)" "unconnected-(U24-CC-Pad3)" "unconnected-(U25-CC-Pad3)" "unconnected-(U26-CC-Pad3)" "unconnected-(U42-CC-Pad3)" "unconnected-(U51-CC-Pad3)" "unconnected-(U52-CC-Pad3)"
+    "unconnected-(U53-CC-Pad3)" "unconnected-(U54-CC-Pad3)" "unconnected-(U55-CC-Pad3)" "unconnected-(U56-CC-Pad3)" "unconnected-(U57-CC-Pad3)" "/digit_max_1/DIG_5" "/digit_max_1/DIG_4" "/digit_max_1/SEG_D"
+    "Net-(U2-DOUT)" "/digit_max_1/SEG_A" "/digit_max_1/SEG_C" "/digit_max_1/DIG_3" "/digit_max_1/DIG_1" "/digit_max_1/SEG_E" "/digit_max_1/SEG_G" "/digit_max_1/SEG_B"
+    "/digit_max_1/SEG_DP" "/digit_max_1/DIG_2" "/digit_max_1/DIG_6" "Net-(U2-DIN)" "/digit_max_1/SEG_F" "/digit_max_1/DIG_0" "/digit_max_1/DIG_7" "Net-(U4-DIN)"
+    "/digit_max_3/DIG_1" "/digit_max_3/SEG_G" "/digit_max_3/SEG_DP" "/digit_max_3/DIG_2" "/digit_max_3/DIG_6" "/digit_max_3/SEG_D" "/digit_max_3/DIG_0" "/digit_max_3/SEG_B"
+    "Net-(U6-DIN)" "/digit_max_3/SEG_F" "/digit_max_3/DIG_4" "/digit_max_3/DIG_3" "/digit_max_3/SEG_C" "/digit_max_3/SEG_A" "/digit_max_3/DIG_7" "/digit_max_3/SEG_E"
+    "/digit_max_3/DIG_5" "/digit_max_5/DIG_2" "/digit_max_5/SEG_DP" "/digit_max_5/DIG_5" "/digit_max_5/DIG_6" "/digit_max_5/DIG_0" "/digit_max_5/SEG_F" "/digit_max_5/DIG_4"
+    "/digit_max_5/SEG_B" "/digit_max_5/SEG_E" "/digit_max_5/SEG_D" "/digit_max_5/DIG_3" "/digit_max_5/SEG_G" "/digit_max_5/DIG_7" "/digit_max_5/SEG_C" "/digit_max_5/DIG_1"
+    "/digit_max_5/SEG_A" "unconnected-(U11-CC-Pad3)" "unconnected-(U12-CC-Pad3)" "unconnected-(U13-CC-Pad3)" "unconnected-(U14-CC-Pad3)" "unconnected-(U15-CC-Pad3)" "unconnected-(U16-CC-Pad3)" "unconnected-(U17-CC-Pad3)"
+    "unconnected-(U18-CC-Pad3)" "unconnected-(U27-CC-Pad3)" "unconnected-(U28-CC-Pad3)" "unconnected-(U29-CC-Pad3)" "unconnected-(U30-CC-Pad3)" "unconnected-(U31-CC-Pad3)" "unconnected-(U32-CC-Pad3)" "unconnected-(U33-CC-Pad3)"
+    "unconnected-(U43-CC-Pad3)" "unconnected-(U44-CC-Pad3)" "unconnected-(U45-CC-Pad3)" "unconnected-(U46-CC-Pad3)" "unconnected-(U47-CC-Pad3)" "unconnected-(U48-CC-Pad3)" "unconnected-(U49-CC-Pad3)" "unconnected-(U50-CC-Pad3)"
+    "unconnected-(U3-DOUT-Pad24)" "/digit_max_7/SEG_A" "/digit_max_7/SEG_E" "/digit_max_7/SEG_F" "/digit_max_7/DIG_0" "unconnected-(U58-CC-Pad3)" "/digit_max_7/SEG_DP" "/digit_max_7/SEG_B"
+    "/digit_max_7/SEG_G" "/digit_max_7/SEG_D" "/digit_max_7/SEG_C" "/digit_max_7/DIG_1" "unconnected-(U59-CC-Pad3)"
+    (clearance_class "kicad_default")
+    (via_rule "kicad_default")
+    (rule
+      (width 200.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

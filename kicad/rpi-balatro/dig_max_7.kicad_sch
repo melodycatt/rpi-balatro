@@ -1,0 +1,1100 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "f139d1ca-7aec-4b15-837a-1c7253a7e85a")
+	(paper "A4")
+	(lib_symbols
+		(symbol "Display_Character:SM420561N"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -2.54 13.97 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right)
+				)
+			)
+			(property "Value" "SM420561N"
+				(at 1.27 13.97 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Display_7Segment:7SegmentLED_LTS6760_LTS6780"
+				(at 1.27 -15.24 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://datasheet.lcsc.com/szlcsc/Wuxi-ARK-Tech-Elec-SM420561N_C141367.pdf"
+				(at -12.7 12.065 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Description" "One digit 7 segment blue LED, common cathode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "display LED 7-segment"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "7SegmentLED?LTS6760?LTS6780*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SM420561N_0_0"
+				(text "E"
+					(at -2.54 1.778 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "F"
+					(at -2.286 4.826 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "D"
+					(at -0.254 1.016 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "G"
+					(at 0 4.064 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "A"
+					(at 0.254 5.588 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "C"
+					(at 2.286 1.778 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "B"
+					(at 2.54 4.826 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+				(text "DP"
+					(at 3.556 0.254 0)
+					(effects
+						(font
+							(size 0.508 0.508)
+						)
+					)
+				)
+			)
+			(symbol "SM420561N_0_1"
+				(rectangle
+					(start -5.08 12.7)
+					(end 5.08 -12.7)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 2.794) (xy -1.778 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 5.842) (xy -1.524 3.81)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 0.254) (xy 0.762 0.254)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.016 3.302) (xy 1.016 3.302)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.762 6.35) (xy 1.27 6.35)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.524 2.794) (xy 1.27 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.778 5.842) (xy 1.524 3.81)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0.254) (xy 2.54 0.254)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SM420561N_1_1"
+				(pin input line
+					(at -7.62 7.62 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 5.08 0)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 2.54 0)
+					(length 2.54)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 -2.54 0)
+					(length 2.54)
+					(name "E"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 -5.08 0)
+					(length 2.54)
+					(name "F"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 -7.62 0)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 -10.16 0)
+					(length 2.54)
+					(name "DP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 7.62 -7.62 180)
+					(length 2.54)
+					(name "CC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 7.62 -10.16 180)
+					(length 2.54)
+					(name "CC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 54.61 81.28)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0a80632e-4fe0-4087-8646-bc57fede59be")
+	)
+	(junction
+		(at 43.18 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4d0cda1e-cd8d-4751-b314-f58177b1adc3")
+	)
+	(junction
+		(at 39.37 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "88b3e911-1393-4fcf-8a80-0c5fec538d0c")
+	)
+	(junction
+		(at 50.8 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9f8f12e2-f754-4b21-bd36-b289907b793a")
+	)
+	(junction
+		(at 58.42 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b114414b-22dd-4c10-a650-4c329ed34956")
+	)
+	(junction
+		(at 46.99 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c21c622a-0f6e-4470-858a-f7a139733253")
+	)
+	(junction
+		(at 35.56 68.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d9d1b24e-f99f-4746-98e9-44460d3f0877")
+	)
+	(junction
+		(at 31.75 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dfe7cc32-2a2d-4124-961f-cea7d4b594c4")
+	)
+	(wire
+		(pts
+			(xy 54.61 41.91) (xy 54.61 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0081b0a6-fd99-4f84-a669-eeb160f32519")
+	)
+	(wire
+		(pts
+			(xy 35.56 68.58) (xy 63.5 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0ebd2586-905e-435b-ae5a-934d8db1c147")
+	)
+	(wire
+		(pts
+			(xy 43.18 41.91) (xy 43.18 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c197723-fd99-4e02-a6ed-e1ede9cfbfcc")
+	)
+	(wire
+		(pts
+			(xy 35.56 41.91) (xy 35.56 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d82be42-b959-462d-8ccc-17a2b1d245b6")
+	)
+	(wire
+		(pts
+			(xy 31.75 92.71) (xy 63.5 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29ea7263-f5b3-4112-bb1c-777c32e2d468")
+	)
+	(wire
+		(pts
+			(xy 39.37 71.12) (xy 39.37 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32874938-160b-432f-b2b0-95834adf4340")
+	)
+	(wire
+		(pts
+			(xy 46.99 41.91) (xy 46.99 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3cf172fa-6775-4d84-a813-253b3030a0c0")
+	)
+	(wire
+		(pts
+			(xy 50.8 105.41) (xy 63.5 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3eda8144-a02c-49e7-8ca5-e5112debb559")
+	)
+	(wire
+		(pts
+			(xy 39.37 97.79) (xy 63.5 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4b0a2358-0054-44c8-8a87-9127e0e24c07")
+	)
+	(wire
+		(pts
+			(xy 43.18 100.33) (xy 63.5 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "561a5d4e-8736-4b1b-ad13-5c8d37d1715c")
+	)
+	(wire
+		(pts
+			(xy 39.37 41.91) (xy 39.37 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c0c5326-8295-4615-99cd-b899ee5ef01c")
+	)
+	(wire
+		(pts
+			(xy 31.75 41.91) (xy 31.75 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f2e820d-7c8a-47ff-a1f8-42a6328290fe")
+	)
+	(wire
+		(pts
+			(xy 54.61 81.28) (xy 63.5 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75b147cc-0b43-4534-b831-6dfdcee1fcdc")
+	)
+	(wire
+		(pts
+			(xy 46.99 76.2) (xy 63.5 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a3c7ece-32c3-493a-8a73-9411b031604a")
+	)
+	(wire
+		(pts
+			(xy 39.37 71.12) (xy 63.5 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c487fbd-dab2-4bb3-a419-dac24e218fdf")
+	)
+	(wire
+		(pts
+			(xy 46.99 76.2) (xy 46.99 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f2233f5-1f51-4094-a04c-9976e1f30f46")
+	)
+	(wire
+		(pts
+			(xy 43.18 73.66) (xy 63.5 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "80149101-c02d-4291-8af7-48e5f20c1ebb")
+	)
+	(wire
+		(pts
+			(xy 58.42 83.82) (xy 58.42 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "804e5824-e25a-4427-a3ba-c041f0aff5cc")
+	)
+	(wire
+		(pts
+			(xy 43.18 73.66) (xy 43.18 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81cb1e59-7e6a-4595-b679-afb7bdd31c1d")
+	)
+	(wire
+		(pts
+			(xy 58.42 83.82) (xy 63.5 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8476701b-6435-494a-9a2e-430c0368c37f")
+	)
+	(wire
+		(pts
+			(xy 54.61 81.28) (xy 54.61 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87712724-df43-4d94-a7e5-7665c1fdef3e")
+	)
+	(wire
+		(pts
+			(xy 35.56 95.25) (xy 63.5 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96035782-2c60-4d8a-957e-91fc2212d486")
+	)
+	(wire
+		(pts
+			(xy 50.8 41.91) (xy 50.8 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6aa355f-a1be-481b-85a6-86872abe6b10")
+	)
+	(wire
+		(pts
+			(xy 58.42 110.49) (xy 63.5 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd4aa3bc-161e-472c-9f95-ce8455eb9f1c")
+	)
+	(wire
+		(pts
+			(xy 31.75 66.04) (xy 31.75 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2b96d2e-a2f5-4d3d-a794-ad12c6344d61")
+	)
+	(wire
+		(pts
+			(xy 58.42 43.18) (xy 58.42 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8501435-9f29-4b78-9d54-99809602349a")
+	)
+	(wire
+		(pts
+			(xy 54.61 107.95) (xy 63.5 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8adbd2a-221f-4882-842b-8d2d086e49dd")
+	)
+	(wire
+		(pts
+			(xy 46.99 102.87) (xy 63.5 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca6edf8f-ff21-4758-bbe9-02faf2c0fb6c")
+	)
+	(wire
+		(pts
+			(xy 35.56 68.58) (xy 35.56 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d34f8869-7b12-4daf-8d7c-8995392f8bed")
+	)
+	(wire
+		(pts
+			(xy 50.8 78.74) (xy 63.5 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d41f8ca0-5280-470b-844c-f830385e7a3a")
+	)
+	(wire
+		(pts
+			(xy 31.75 66.04) (xy 63.5 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5a84430-c73a-4dd1-9633-5d8492fffd08")
+	)
+	(wire
+		(pts
+			(xy 50.8 78.74) (xy 50.8 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee5d0ea5-4835-4fdf-b1ad-cd8cee999ba9")
+	)
+	(hierarchical_label "SEG_C"
+		(shape input)
+		(at 39.37 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1c916643-af3f-4d7e-b675-d68b94c8e472")
+	)
+	(hierarchical_label "DIG_0"
+		(shape input)
+		(at 78.74 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4472d51b-ca2d-4d61-bfaa-89e50480c128")
+	)
+	(hierarchical_label "SEG_A"
+		(shape input)
+		(at 31.75 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "56ec98ef-03f2-4d4f-8fb8-e0ed894f0196")
+	)
+	(hierarchical_label "SEG_F"
+		(shape input)
+		(at 50.8 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8a3ea559-7315-4d85-929e-38f89e4c8157")
+	)
+	(hierarchical_label "SEG_G"
+		(shape input)
+		(at 54.61 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9e22870a-85e5-45f1-a698-7c3693411c39")
+	)
+	(hierarchical_label "SEG_D"
+		(shape input)
+		(at 43.18 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c2d43ae8-dcf6-46ae-8bcf-175e53e80b2d")
+	)
+	(hierarchical_label "SEG_E"
+		(shape input)
+		(at 46.99 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e32905cb-7a28-46bb-9a63-9452af1e36ea")
+	)
+	(hierarchical_label "SEG_DP"
+		(shape input)
+		(at 58.42 43.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f65767af-c94b-4997-87db-fc3fb2f9fe69")
+	)
+	(hierarchical_label "SEG_B"
+		(shape input)
+		(at 35.56 41.91 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f683123c-a40e-438e-ad56-8252b912c2fd")
+	)
+	(hierarchical_label "DIG_1"
+		(shape input)
+		(at 78.74 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f93b809a-920c-4ea9-b9a2-0c56d280ef15")
+	)
+	(symbol
+		(lib_id "Display_Character:SM420561N")
+		(at 71.12 100.33 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "443fdbc8-7ced-499b-8b4b-f698df118574")
+		(property "Reference" "U59"
+			(at 71.12 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SM420561N"
+			(at 71.12 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Display_7Segment:7SegmentLED_LTS6760_LTS6780"
+			(at 72.39 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/szlcsc/Wuxi-ARK-Tech-Elec-SM420561N_C141367.pdf"
+			(at 58.42 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Description" "One digit 7 segment blue LED, common cathode"
+			(at 71.12 100.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "7"
+			(uuid "2bb7ec22-dc36-4274-9482-894128cc3bd2")
+		)
+		(pin "6"
+			(uuid "54acd5be-7676-4dc6-a1dd-ed1218a55317")
+		)
+		(pin "4"
+			(uuid "d14c44ac-4a45-45c8-86fd-90d6ca484fb1")
+		)
+		(pin "2"
+			(uuid "ffa90546-d9e5-4433-99ce-9efca4e391b1")
+		)
+		(pin "1"
+			(uuid "8c2def93-580a-42d0-8801-c4c4670fae78")
+		)
+		(pin "9"
+			(uuid "b8f47647-6976-4435-a31e-ffde6d4284b4")
+		)
+		(pin "10"
+			(uuid "79581048-8ade-4453-9069-2afe62ba48d5")
+		)
+		(pin "5"
+			(uuid "89a11c65-ceae-47fa-be1d-6c6a9eed5e97")
+		)
+		(pin "3"
+			(uuid "2ac312c1-b0e6-400d-ba89-85a7292ceb7b")
+		)
+		(pin "8"
+			(uuid "b85eafe3-4147-4645-b6d4-66e106bbe226")
+		)
+		(instances
+			(project "rpi-balatro"
+				(path "/823fc229-b6d4-4ef7-bb95-8db79de6fb95/2de12b9c-afa3-4f83-bf07-b1707e624134"
+					(reference "U59")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Display_Character:SM420561N")
+		(at 71.12 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ca362636-2319-4780-a903-c10bdcd84272")
+		(property "Reference" "U58"
+			(at 71.12 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SM420561N"
+			(at 71.12 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Display_7Segment:7SegmentLED_LTS6760_LTS6780"
+			(at 72.39 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/szlcsc/Wuxi-ARK-Tech-Elec-SM420561N_C141367.pdf"
+			(at 58.42 61.595 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Description" "One digit 7 segment blue LED, common cathode"
+			(at 71.12 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "7"
+			(uuid "c3711fa8-dc97-44fb-b3d3-495b0edee9d3")
+		)
+		(pin "6"
+			(uuid "c35d4cce-0c47-435d-949e-20eea63219b4")
+		)
+		(pin "4"
+			(uuid "20da08dd-6349-49bf-be8a-b1a4c6512326")
+		)
+		(pin "2"
+			(uuid "849bb411-e29f-4826-a6bc-4cf270b22119")
+		)
+		(pin "1"
+			(uuid "4d223be8-1c40-46c0-b3a6-b6575f517447")
+		)
+		(pin "9"
+			(uuid "9eea08a6-2173-4ac1-b9e3-a387d03b18e5")
+		)
+		(pin "10"
+			(uuid "ccdd5f70-491f-46f7-b8c5-bd264bbfa063")
+		)
+		(pin "5"
+			(uuid "b9a29b27-9354-4392-9525-0d6a7fa81c5c")
+		)
+		(pin "3"
+			(uuid "9806d254-e22c-4208-b7a0-5bcc3d54c709")
+		)
+		(pin "8"
+			(uuid "a94ede16-f3f5-459d-8212-0654a5d61b26")
+		)
+		(instances
+			(project "rpi-balatro"
+				(path "/823fc229-b6d4-4ef7-bb95-8db79de6fb95/2de12b9c-afa3-4f83-bf07-b1707e624134"
+					(reference "U58")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

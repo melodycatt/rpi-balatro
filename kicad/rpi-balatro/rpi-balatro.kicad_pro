@@ -488,7 +488,7 @@
       "netlist": "",
       "plot": "",
       "pos_files": "",
-      "specctra_dsn": "",
+      "specctra_dsn": "rpi-balatro.dsn",
       "step": "",
       "svg": "",
       "vrml": ""
@@ -624,6 +624,10 @@
     [
       "49d8f5fd-21d0-4e6c-8fb5-a59cfe242fa4",
       "digit_max_3"
+    ],
+    [
+      "2de12b9c-afa3-4f83-bf07-b1707e624134",
+      "digit_max_7"
     ],
     [
       "37e5b1d3-2ad3-4308-aada-ca72c59f3223",

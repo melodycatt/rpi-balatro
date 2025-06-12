@@ -65,8 +65,8 @@ use std::env::current_dir;
 //not just that, we also import *, which means everything from the jokers module
 //this means that instead of doing `use rpi_balatro::jokers;` and then, say `jokers::joker_loader();`,
 //we can individually use everything in the module without the prefix `jokers::` and without listing it all
-use rpi_balatro::jokers::*;
-use rpi_balatro::game;
+//use rpi_balatro::jokers::*;
+//use rpi_balatro::game;
 //modules we want in our crate (project) are defined in <crate_directory>/src/lib.rs
 //lib stands for library, src stands for source (code). we're in <crate_directory>/src/main.rs right now;
 //<crate_directory> in our case is rpi-balatro

@@ -67,8 +67,10 @@ impl<T: DeckType + 'static> Game<T> {
     }
 
     pub fn play(&mut self) -> Result<f64, NoCards> {
+        #![allow(unused_assignments)]
         let mut chips = 0.0;
         let mut mult = 0.0;
+        #[warn(unused_assignments)]
 
         let splash = self.jokers.iter().any(|x| x.id() == "splash");
 
